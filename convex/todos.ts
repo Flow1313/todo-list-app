@@ -1,33 +1,47 @@
+import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-// Fetch all todos
-export const getTodos = query(async ({ db }) => {
-  return await db.query("todos").collect();
+/* -------------------- QUERIES -------------------- */
+
+export const getTodos = query({
+  handler: async ({ db }) => {
+    return await db.query("todos").collect();
+  },
 });
 
-// Add a new todo
-export const addTodo = mutation(
-  async (
-    { db },
-    todo: { title: string; completed: boolean; createdAt: number }
-  ) => {
-    return await db.insert("todos", todo);
-  }
-);
+/* -------------------- MUTATIONS -------------------- */
 
-// Update a todo
-export const updateTodo = mutation(
-  async (
-    { db },
-    args: { _id: any; updates: { completed?: boolean; title?: string } }
-  ) => {
-    await db.patch("todos", args._id as any, args.updates);
-  }
-);
+export const addTodo = mutation({
+  args: {
+    text: v.string(),
+  },
+  handler: async ({ db }, { text }) => {
+    await db.insert("todos", {
+      text,
+      completed: false,
+    });
+  },
+});
 
-// Delete a todo
-export const deleteTodo = mutation(
-  async ({ db }, args: { _id: any }) => {
-    await db.delete("todos", args._id as any);
-  }
-);
+export const toggleTodo = mutation({
+  args: {
+    id: v.id("todos"),
+  },
+  handler: async ({ db }, { id }) => {
+    const todo = await db.get(id);
+    if (!todo) return;
+
+    await db.patch(id, {
+      completed: !todo.completed,
+    });
+  },
+});
+
+export const deleteTodo = mutation({
+  args: {
+    id: v.id("todos"),
+  },
+  handler: async ({ db }, { id }) => {
+    await db.delete(id);
+  },
+});
