@@ -1,90 +1,112 @@
-# Welcome to your Convex functions directory!
+📝 Real-Time To-Do App (Expo + Convex)
 
-Write your Convex functions here.
-See https://docs.convex.dev/functions for more.
+A modern, real-time To-Do List application built with Expo (React Native) and Convex.
+Designed with a clean, minimal UI and optimized for speed, scalability, and developer experience.
 
-A query function that takes two arguments looks like:
+This project demonstrates real-time data handling, clean architecture, and cross-platform mobile development.
 
-```ts
-// convex/myFunctions.ts
-import { query } from "./_generated/server";
-import { v } from "convex/values";
+🚀 Live Features
 
-export const myQueryFunction = query({
-  // Validators for arguments.
-  args: {
-    first: v.number(),
-    second: v.string(),
-  },
+➕ Create new tasks instantly
 
-  // Function implementation.
-  handler: async (ctx, args) => {
-    // Read the database as many times as you need here.
-    // See https://docs.convex.dev/database/reading-data.
-    const documents = await ctx.db.query("tablename").collect();
+✅ Toggle task completion
 
-    // Arguments passed from the client are properties of the args object.
-    console.log(args.first, args.second);
+🗑 Delete tasks
 
-    // Write arbitrary JavaScript here: filter, aggregate, build derived data,
-    // remove non-public properties, or create new objects.
-    return documents;
-  },
-});
-```
+🔄 Real-time updates powered by Convex
 
-Using this query function in a React component looks like:
+📱 Cross-platform support (Android, iOS, Web)
 
-```ts
-const data = useQuery(api.myFunctions.myQueryFunction, {
-  first: 10,
-  second: "hello",
-});
-```
+🎨 Clean, modern, user-friendly interface
 
-A mutation function looks like:
+🛠 Tech Stack
+Frontend
 
-```ts
-// convex/myFunctions.ts
-import { mutation } from "./_generated/server";
-import { v } from "convex/values";
+Expo (React Native)
 
-export const myMutationFunction = mutation({
-  // Validators for arguments.
-  args: {
-    first: v.string(),
-    second: v.string(),
-  },
+Expo Router
 
-  // Function implementation.
-  handler: async (ctx, args) => {
-    // Insert or modify documents in the database here.
-    // Mutations can also read from the database like queries.
-    // See https://docs.convex.dev/database/writing-data.
-    const message = { body: args.first, author: args.second };
-    const id = await ctx.db.insert("messages", message);
+TypeScript
 
-    // Optionally, return a value from your mutation.
-    return await ctx.db.get("messages", id);
-  },
-});
-```
+React Hooks
 
-Using this mutation function in a React component looks like:
+Backend
 
-```ts
-const mutation = useMutation(api.myFunctions.myMutationFunction);
-function handleButtonPress() {
-  // fire and forget, the most common way to use mutations
-  mutation({ first: "Hello!", second: "me" });
-  // OR
-  // use the result once the mutation has completed
-  mutation({ first: "Hello!", second: "me" }).then((result) =>
-    console.log(result),
-  );
-}
-```
+Convex (Serverless, real-time backend)
 
-Use the Convex CLI to push your functions to a deployment. See everything
-the Convex CLI can do by running `npx convex -h` in your project root
-directory. To learn more, launch the docs with `npx convex docs`.
+📂 Folder Structure
+├── app/
+│   ├── (tabs)/
+│   │   └── index.tsx        # Todo screen
+│   └── _layout.tsx          # App layout
+│
+├── convex/
+│   ├── todos.ts             # Queries & mutations
+│   └── schema.ts            # Database schema
+│
+├── package.json
+├── tsconfig.json
+└── README.md
+
+⚙️ Setup & Installation
+Clone the repository
+git clone https://github.com/Flow1313/to-do-list-app.git
+cd to-do-list-app
+
+Install dependencies
+npm install
+
+Start Convex
+npx convex dev
+
+Run the app
+npx expo start
+
+
+a → Android
+
+w → Web
+
+Scan QR → Expo Go
+
+🧠 Architecture Overview
+
+Convex handles database, mutations, and real-time subscriptions
+
+Frontend listens to data using useQuery
+
+UI updates automatically without manual refresh
+
+Business logic is cleanly separated between UI and backend
+
+🎯 Key Takeaways
+
+Real-time systems don’t have to be complex
+
+Convex simplifies backend logic
+
+Expo enables fast, scalable cross-platform apps
+
+Clean UI significantly improves user experience
+
+🔮 Planned Improvements
+
+Edit todo items
+
+Authentication & user accounts
+
+Animations and micro-interactions
+
+Dark / Light theme support
+
+Offline support
+
+👤 Author
+
+Bello Ibrahim
+Software Developer
+Focused on building clean, scalable, and user-friendly applications.
+
+📄 License
+
+MIT License
